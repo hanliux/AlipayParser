@@ -1,2 +1,2 @@
 # AlipayParser
-Parse your alipay bills with selenium and chrome driver
+循环获取你的所有的支付宝交易记录，想干啥自己决定咯。
