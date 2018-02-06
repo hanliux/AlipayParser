@@ -49,7 +49,7 @@ def email_notify():
     send_email(server, user_name, user_name, subject, text)
 
 
-def parse_bills(alipay_user_name="xxxxxx@xxx.com", password=""):
+def parse_bills(user_name, password):
     """
     从支付宝获取所有的订单
     并返回
@@ -69,11 +69,11 @@ def parse_bills(alipay_user_name="xxxxxx@xxx.com", password=""):
             ec.presence_of_element_located((By.ID, "J-login-btn"))
         )
         if user_name_area and pass_word_area and login_btn:
-            user_name_area.send_keys(alipay_user_name)
+            user_name_area.send_keys(user_name)
             time.sleep(random.uniform(0.1, 1))
             pass_word_area.click()
             pass_word_area.send_keys(password)
-            time.sleep(random.randint(1, 5))  # 加入一些随机数，模拟真实点击
+            time.sleep(random.uniform(1, 2))  # 加入一些随机数，模拟真实点击
             login_btn.click()
             driver.implicitly_wait(10)
             time.sleep(random.uniform(1, 2))
@@ -82,7 +82,6 @@ def parse_bills(alipay_user_name="xxxxxx@xxx.com", password=""):
             driver.implicitly_wait(10)
 
             # 确认是否转到了订单页面
-            time.sleep(2)
             if not driver.title == "我的账单 - 支付宝":
                 # 如果没有成功转到支付宝账单页面，那么用邮件通知
                 # 取消注释下一行来启用
@@ -123,12 +122,3 @@ def parse_bills(alipay_user_name="xxxxxx@xxx.com", password=""):
         return []
     finally:
         driver.quit()  # 确保浏览器进程退出
-
-
-if __name__ == "__main__":
-    success_times = 0
-    while True:
-        parsed_bills = parse_bills(password="xxxxxxxxxxxx")
-        success_times += 1
-        if len(parsed_bills) <= 0:
-            break
